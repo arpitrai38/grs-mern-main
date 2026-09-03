@@ -69,7 +69,7 @@ const Home = () => {
                     <div className="col-sm-12 bg-primary">
                         <footer className="bg-primary text-center text-lg-start">
                             <div className="text-center p-2 text-white fs-6 fw-bold">
-                                © {new Date().getFullYear()} Copyright: Grievance Redressal System. Designed and Developed By Softpro India Computer Technology Pvt. Ltd.
+                                © {new Date().getFullYear()} Copyright: Grievance Redressal System. Designed and Developed By Arpit Rai.
                             </div>
                         </footer>
                     </div>
