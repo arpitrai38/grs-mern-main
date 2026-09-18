@@ -20,6 +20,7 @@ import {
   FaCode,
   FaUniversity
 } from 'react-icons/fa';
+import developerPhoto from '../assets/arpit-rai.png';
 
 const Home = () => {
   const [emailSub, setEmailSub] = useState('');
@@ -487,25 +488,35 @@ const Home = () => {
               gap: '2.25rem',
               flexWrap: 'wrap'
             }}>
-              {/* Developer Avatar Badge */}
+              {/* Developer Avatar Photo */}
               <div style={{
                 position: 'relative',
                 flexShrink: 0
               }}>
                 <div style={{
-                  width: '110px',
-                  height: '110px',
+                  width: '140px',
+                  height: '140px',
                   borderRadius: '28px',
+                  overflow: 'hidden',
+                  boxShadow: '0 12px 30px -6px rgba(62, 63, 216, 0.28), 0 6px 16px rgba(0, 0, 0, 0.08)',
+                  border: '4px solid #FFFFFF',
                   background: 'linear-gradient(135deg, var(--primary) 0%, #6366F1 100%)',
-                  display: 'grid',
-                  placeItems: 'center',
-                  color: '#FFFFFF',
-                  fontSize: '2.5rem',
-                  fontWeight: '800',
-                  boxShadow: 'var(--shadow-primary)',
-                  fontFamily: 'var(--font-heading)'
+                  position: 'relative'
                 }}>
-                  AR
+                  <img 
+                    src={developerPhoto} 
+                    alt="Arpit Rai - Fullstack Developer & Freelancer" 
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center 15%',
+                      display: 'block',
+                      transition: 'transform 0.35s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.08)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  />
                 </div>
                 <div style={{
                   position: 'absolute',
@@ -513,15 +524,15 @@ const Home = () => {
                   right: '-6px',
                   background: 'var(--success)',
                   color: '#FFFFFF',
-                  width: '32px',
-                  height: '32px',
+                  width: '36px',
+                  height: '36px',
                   borderRadius: '50%',
                   display: 'grid',
                   placeItems: 'center',
                   border: '3px solid #FFFFFF',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                  boxShadow: '0 4px 10px rgba(16, 185, 129, 0.4)'
                 }} title="Available for Freelance Projects">
-                  <FaLaptopCode size={14} />
+                  <FaLaptopCode size={16} />
                 </div>
               </div>
 
@@ -726,8 +737,23 @@ const Home = () => {
           </div>
 
           <div className="footer-bottom">
-            <div>
-              © {new Date().getFullYear()} GRS Portal. Developed by <strong>Arpit Rai</strong> — Fullstack Developer & Freelancer. All rights reserved.
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <img 
+                src={developerPhoto} 
+                alt="Arpit Rai" 
+                style={{ 
+                  width: '32px', 
+                  height: '32px', 
+                  borderRadius: '50%', 
+                  objectFit: 'cover', 
+                  objectPosition: 'center 15%',
+                  border: '2px solid var(--primary)',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.12)' 
+                }} 
+              />
+              <span>
+                © {new Date().getFullYear()} GRS Portal. Developed by <strong style={{ color: 'var(--text-heading)' }}>Arpit Rai</strong> — Fullstack Developer & Freelancer. All rights reserved.
+              </span>
             </div>
             <div>
               Crafted for seamless grievance redressal, transparency, and academic excellence.
