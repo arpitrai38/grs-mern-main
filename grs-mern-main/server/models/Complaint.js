@@ -1,23 +1,39 @@
-const mongoose = require('mongoose')
-const complaintSchema  = mongoose.Schema({
-    complaintType:{
-        type:mongoose.Schema.ObjectId,
-        ref:"ComplaintType"
+const mongoose = require('mongoose');
+
+const complaintSchema = mongoose.Schema({
+    collegeId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "College",
+        required: true,
+        index: true
     },
-    complaint:{
-        type:String,
-        required:true
+    studentId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Student",
+        required: true,
+        index: true
     },
-    studentId:{
-        type:mongoose.Schema.ObjectId,
-        ref:"Student"
+    complaintType: {
+        type: mongoose.Schema.ObjectId,
+        ref: "ComplaintType"
     },
-    status:{
-        type:String,
-        enum:['notProcessed','pending','closed'],
-        default:'notProcessed'
+    complaint: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        default: ''
+    },
+    status: {
+        type: String,
+        enum: ['notProcessed', 'pending', 'closed'],
+        default: 'notProcessed'
     }
-},{
-    timestamps:true
+}, {
+    timestamps: true
 });
-module.exports = mongoose.model('Complaint',complaintSchema)
+
+complaintSchema.index({ collegeId: 1, createdAt: -1 });
+
+module.exports = mongoose.model('Complaint', complaintSchema);

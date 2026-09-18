@@ -51,7 +51,9 @@ const studentSchema = mongoose.Schema({
     },
     collegeId:{
         type:mongoose.Schema.ObjectId,
-        ref:"College"
+        ref:"College",
+        required:true,
+        index:true
     },
     picture:{
         type:String,

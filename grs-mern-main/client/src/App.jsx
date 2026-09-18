@@ -16,6 +16,10 @@ const RaiseComplaint = lazy(() => import('./pages/student/RaiseComplaint'));
 const AdminLogin = lazy(() => import('./pages/admin/Login'));
 const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
 const ManageEntities = lazy(() => import('./pages/admin/ManageEntities'));
+const CollegeRegister = lazy(() => import('./pages/admin/CollegeRegister'));
+
+// Profile Page (Student & Admin)
+const Profile = lazy(() => import('./pages/Profile'));
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRole }) => {
@@ -56,6 +60,8 @@ const AppRoutes = () => {
                     <Route path="/login" element={<MainLayout><StudentLogin /></MainLayout>} />
                     <Route path="/register" element={<MainLayout><StudentRegister /></MainLayout>} />
                     <Route path="/admin/login" element={<MainLayout><AdminLogin /></MainLayout>} />
+                    <Route path="/register-college" element={<MainLayout><CollegeRegister /></MainLayout>} />
+                    <Route path="/college/register" element={<MainLayout><CollegeRegister /></MainLayout>} />
 
                     {/* Student Protected Routes */}
                     <Route path="/student/dashboard" element={
@@ -78,6 +84,13 @@ const AppRoutes = () => {
                     <Route path="/admin/manage-entities" element={
                         <ProtectedRoute allowedRole="admin">
                             <MainLayout><ManageEntities /></MainLayout>
+                        </ProtectedRoute>
+                    } />
+                    
+                    {/* Shared Protected Profile Route */}
+                    <Route path="/profile" element={
+                        <ProtectedRoute>
+                            <MainLayout><Profile /></MainLayout>
                         </ProtectedRoute>
                     } />
                     
