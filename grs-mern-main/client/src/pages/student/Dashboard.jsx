@@ -349,13 +349,16 @@ const Dashboard = () => {
         </div>
 
         {/* Status Filter Buttons */}
-        <div style={{ 
+        <div className="filter-pill-group" style={{ 
           display: 'flex', 
           gap: '0.4rem', 
           background: '#FFFFFF', 
           padding: '4px', 
           borderRadius: 'var(--radius-pill)', 
-          border: '1px solid var(--border)' 
+          border: '1px solid var(--border)',
+          overflowX: 'auto',
+          maxWidth: '100%',
+          WebkitOverflowScrolling: 'touch'
         }}>
           {['all', 'notProcessed', 'pending', 'closed'].map((st) => (
             <button
@@ -532,12 +535,14 @@ const Dashboard = () => {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
+            className="evidence-modal-box"
             style={{
               backgroundColor: '#FFFFFF',
               borderRadius: 'var(--radius-lg)',
-              maxWidth: '640px',
+              maxWidth: 'min(640px, 95vw)',
+              maxHeight: '92vh',
               width: '100%',
-              overflow: 'hidden',
+              overflowY: 'auto',
               boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
               position: 'relative'
             }}

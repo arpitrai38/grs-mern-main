@@ -261,9 +261,9 @@ const ComplaintCharts = ({ complaints = [], title = "Grievance Analytics" }) => 
         /* Pie / Donut Chart View */
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'minmax(220px, 300px) 1fr', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
           alignItems: 'center', 
-          gap: '2.5rem',
+          gap: '2rem',
           padding: '1rem 0'
         }}>
           {/* SVG Donut Circle */}

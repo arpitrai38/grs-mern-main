@@ -537,7 +537,7 @@ const Home = () => {
               </div>
 
               {/* Developer Details */}
-              <div style={{ flex: 1, minWidth: '280px' }}>
+              <div style={{ flex: '1 1 240px', minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.4rem' }}>
                   <h3 style={{ fontSize: '1.85rem', margin: 0, color: 'var(--text-heading)' }}>
                     Arpit Rai
