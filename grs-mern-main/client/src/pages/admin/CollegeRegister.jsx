@@ -152,7 +152,15 @@ const CollegeRegister = () => {
         navigate('/admin/login');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Institution onboarding failed. Please verify the submitted details.');
+      if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else if (err.response?.status === 502 || err.response?.status === 503) {
+        setError('Server or database is temporarily unavailable (502/503). Please check Render backend status and MongoDB Atlas.');
+      } else if (err.message && (err.message.includes('Network Error') || err.code === 'ERR_NETWORK')) {
+        setError('Cannot connect to server. Please check your internet connection or verify the backend service is running.');
+      } else {
+        setError('Institution onboarding failed. Please verify the submitted details.');
+      }
     } finally {
       setLoading(false);
     }

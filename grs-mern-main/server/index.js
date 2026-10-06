@@ -1,72 +1,74 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 const connectDB = require("./config/db");
 const helmet = require("helmet");
 const cors = require("cors");
-const cluster = require("cluster");
-const numCPUs = require("os").cpus().length;
 const rateLimit = require("express-rate-limit");
 
 // Load environment variables
 dotenv.config();
 
-if (cluster.isPrimary) {
-    console.log(`Primary process ${process.pid} is running`);
+// Create Express app
+const app = express();
 
-    // Create worker processes
-    for (let i = 0; i < numCPUs; i++) {
-        cluster.fork();
+// Render / proxy support
+app.set("trust proxy", 1);
+
+// Render provides PORT through environment variable
+const PORT = process.env.PORT || 5000;
+
+// Connect MongoDB
+connectDB();
+
+// -------------------------------
+// MIDDLEWARE
+// -------------------------------
+
+app.use(express.json({ limit: "15mb" }));
+app.use(express.urlencoded({ extended: true, limit: "15mb" }));
+
+app.use(cors());
+
+app.use(helmet());
+
+app.use(express.static("public"));
+
+// Rate Limiter
+app.use(
+    rateLimit({
+        windowMs: 15 * 60 * 1000,
+        max: 100,
+        message: "Too many requests from this user, please try again later",
+    })
+);
+
+// -------------------------------
+// HEALTH & ROOT ROUTES
+// -------------------------------
+
+app.get("/", (req, res) => {
+    res.status(200).send("GRS MERN Server is running 🚀");
+});
+
+app.get("/health", (req, res) => {
+    const isDbConnected = mongoose.connection.readyState === 1;
+    res.status(isDbConnected ? 200 : 503).json({
+        status: isDbConnected ? "healthy" : "database_disconnected",
+        database: isDbConnected ? "connected" : "disconnected",
+        uptime: process.uptime()
+    });
+});
+
+// Guard API routes so they return immediate 503 instead of hanging on Mongoose buffer
+app.use("/api", (req, res, next) => {
+    if (mongoose.connection.readyState !== 1) {
+        return res.status(503).json({
+            message: "Database connection unavailable. Please check your MongoDB Atlas credentials and ensure Network Access allows 0.0.0.0/0."
+        });
     }
-
-    // Restart worker if it crashes
-    cluster.on("exit", (worker) => {
-        console.log(`Worker ${worker.process.pid} died. Starting a new worker...`);
-        cluster.fork();
-    });
-
-} else {
-
-    // Create Express app
-    const app = express();
-
-    // Render / proxy support
-    app.set("trust proxy", 1);
-
-    // Render provides PORT through environment variable
-    const PORT = process.env.PORT || 5000;
-
-    // Connect MongoDB
-    connectDB();
-
-    // -------------------------------
-    // MIDDLEWARE
-    // -------------------------------
-
-    app.use(express.json({ limit: "15mb" }));
-    app.use(express.urlencoded({ extended: true, limit: "15mb" }));
-
-    app.use(cors());
-
-    app.use(helmet());
-
-    app.use(express.static("public"));
-
-    // Rate Limiter
-    app.use(
-        rateLimit({
-            windowMs: 15 * 60 * 1000,
-            max: 100,
-            message: "Too many requests from this user, please try again later",
-        })
-    );
-
-    // -------------------------------
-    // ROOT ROUTE
-    // -------------------------------
-
-    app.get("/", (req, res) => {
-        res.status(200).send("GRS MERN Server is running 🚀");
-    });
+    next();
+});
 
     // -------------------------------
     // API ROUTES
@@ -109,4 +111,3 @@ if (cluster.isPrimary) {
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });
-}
